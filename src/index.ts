@@ -1,1 +1,43 @@
-console.log("Hello via Bun!");
+import type{Task,TaskPayload } from "./models/tasks";
+import {tasks} from "./data/taskstore";
+
+let nextTaskId = 1;
+const server=Bun.serve({
+    port:3000,
+    async fetch(request){
+        const url=new URL(request.url);
+        const parts=url.pathname.split("/");
+        
+        if(request.method==="POST" && url.pathname==="/tasks" ){
+
+            const body=await request.json() as TaskPayload;
+
+            if(!body.title || !body.description){
+
+                return Response.json({error: "title and description are required"},
+                                    {status:400}
+                );
+            }
+
+            const newTask: Task = {
+                id: nextTaskId,
+                uuid: crypto.randomUUID(),
+                title :body.title,
+                description :body.description,
+                priority: body.priority ?? "medium",
+                status: body.status ?? "pending",
+                created_at: new Date(),
+                updated_at: new Date(),
+            };
+
+            tasks.push(newTask);
+            nextTaskId++;
+
+            return  Response.json(newTask,{status:201});
+
+        } 
+        return new Response("Hello ");
+    },
+});
+
+console.log(`server is listening to http://localhost:${server.port}`);
