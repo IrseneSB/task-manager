@@ -41,9 +41,13 @@ const server=Bun.serve({
 
         }
         else if(request.method==="GET" && parts[1]==="tasks" && parts[2]){
-
-            return Response.json(tasks.find((task) => task.id ===Number(parts[2]))
-                                ,{status:200});
+            const task=tasks.find((task) => task.id ===Number(parts[2]));
+            if(task){
+                 return Response.json(task,{status:200});
+            }else{
+                return Response.json({error:"task not found"},{status:200});
+            }
+           
 
         }else if(request.method==="PUT" &&  parts[1]==="tasks" && parts[2]){
             return;
