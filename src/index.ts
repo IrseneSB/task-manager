@@ -35,6 +35,24 @@ const server=Bun.serve({
 
             return  Response.json(newTask,{status:201});
 
+        } else if(request.method==="GET" && url.pathname==="/tasks"){
+
+            return Response.json(tasks,{status:200});
+
+        }
+        else if(request.method==="GET" && parts[1]==="tasks" && parts[2]){
+
+            return Response.json(tasks.find((task) => task.id ===Number(parts[2]))
+                                ,{status:200});
+
+        }else if(request.method==="PUT" &&  parts[1]==="tasks" && parts[2]){
+            return;
+            
+        }else if(request.method==="DELETE" &&  parts[1]==="tasks" && parts[2]){
+            return;
+        }
+    
+
         } 
         return new Response("Hello ");
     },
