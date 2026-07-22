@@ -1,4 +1,4 @@
-import type { Task, TaskPayload } from "./models/tasks";
+import type { Task, TaskPayload,UpdateTaskPayload } from "./models/tasks";
 import { tasks } from "./data/taskstore";
 
 let nextTaskId = 1;
@@ -75,7 +75,7 @@ const server = Bun.serve({
                 );
             }
 
-            const body = await request.json() as TaskPayload;
+            const body = await request.json() as UpdateTaskPayload;
 
             if (body.title !== undefined) {
                 task.title = body.title;

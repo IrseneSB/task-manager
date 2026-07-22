@@ -15,3 +15,10 @@ export interface TaskPayload{
   priority?:"low" | "medium" |"high";
   status?: "pending" | "in_progress" |"completed";
 }
+
+export interface UpdateTaskPayload{
+  title?:string;
+  description?:string;
+  priority?:"low" | "medium" |"high";
+  status?:"pending" | "in_progress" |"completed";
+}
