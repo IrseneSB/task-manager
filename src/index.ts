@@ -1,7 +1,6 @@
 import type { Task, TaskPayload,UpdateTaskPayload } from "./models/tasks";
 import { tasks } from "./data/taskstore";
 
-let nextTaskId = 1;
 
 const server = Bun.serve({
     port: 3000,
@@ -22,7 +21,6 @@ const server = Bun.serve({
             }
 
             const newTask: Task = {
-                id: nextTaskId,
                 uuid: crypto.randomUUID(),
                 title: body.title,
                 description: body.description,
@@ -33,7 +31,6 @@ const server = Bun.serve({
             };
 
             tasks.push(newTask);
-            nextTaskId++;
 
             return Response.json(newTask, { status: 201 });
 
@@ -48,7 +45,7 @@ const server = Bun.serve({
         else if (request.method === "GET" && parts[1] === "tasks" && parts[2]) {
 
             const task = tasks.find(
-                (task) => task.id === Number(parts[2])
+                (task) => task.uuid=== parts[2]
             );
 
             if (!task) {
@@ -65,7 +62,7 @@ const server = Bun.serve({
         else if (request.method === "PUT" && parts[1] === "tasks" && parts[2]) {
 
             const task = tasks.find(
-                (task) => task.id === Number(parts[2])
+                (task) => task.uuid=== parts[2]
             );
 
             if (!task) {
@@ -102,7 +99,7 @@ const server = Bun.serve({
         else if (request.method === "DELETE" && parts[1] === "tasks" && parts[2]) {
 
             const index = tasks.findIndex(
-                (task) => task.id === Number(parts[2])
+                (task) => task.uuid === parts[2]
             );
 
             if (index === -1) {
