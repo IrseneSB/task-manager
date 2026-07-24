@@ -21,7 +21,7 @@ const server = Bun.serve({
             }
 
             const newTask: Task = {
-                uuid: crypto.randomUUID(),
+                id: crypto.randomUUID(),
                 title: body.title,
                 description: body.description,
                 priority: body.priority ?? "medium",
@@ -45,7 +45,7 @@ const server = Bun.serve({
         else if (request.method === "GET" && parts[1] === "tasks" && parts[2]) {
 
             const task = tasks.find(
-                (task) => task.uuid=== parts[2]
+                (task) => task.id=== parts[2]
             );
 
             if (!task) {
@@ -62,7 +62,7 @@ const server = Bun.serve({
         else if (request.method === "PUT" && parts[1] === "tasks" && parts[2]) {
 
             const task = tasks.find(
-                (task) => task.uuid=== parts[2]
+                (task) => task.id=== parts[2]
             );
 
             if (!task) {
@@ -99,7 +99,7 @@ const server = Bun.serve({
         else if (request.method === "DELETE" && parts[1] === "tasks" && parts[2]) {
 
             const index = tasks.findIndex(
-                (task) => task.uuid === parts[2]
+                (task) => task.id === parts[2]
             );
 
             if (index === -1) {
